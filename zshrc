@@ -17,7 +17,7 @@ export EDITOR="nvim"
 
 # Base16 Shell
 [[ ! "$(hostname)" == *"toolbox"* ]] && \
-    (distrobox enter $DEFAULT_DISTROBOX -e sudo /usr/sbin/sshd &)
+    (distrobox enter $DEFAULT_DISTROBOX -e sudo /usr/sbin/sshd 2>/dev/null &)
 [[ "$(hostname)" == *"toolbox"* ]] && \
     . "$HOME/.cargo/env"
 
