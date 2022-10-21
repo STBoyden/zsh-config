@@ -9,15 +9,16 @@ export PNPM_HOME="/var/home/sboyden/.local/share/pnpm"
 export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 export PATH="$PATH:$HOME/.npm-global/bin:/var/lib/flatpak/exports/bin:~/.local/bin"
 export PATH="$PNPM_HOME:$PATH"
-export CR_PAT="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"
+export PATH="$PATH:$HOME/.local/share/bin"
+
+DEFAULT_DISTROBOX="fedora-toolbox-37"
 
 export EDITOR="nvim"
 
 # Base16 Shell
-[[ ! "$(hostname)" == "toolbox" ]] && (toolbox run sudo /usr/sbin/sshd &)
-[[ "$(hostname)" == "toolbox" ]] && \
-    export DISPLAY=:0 && \
-    export WAYLAND_DISPLAY="" && \
+[[ ! "$(hostname)" == *"toolbox"* ]] && \
+    (distrobox enter $DEFAULT_DISTROBOX -e sudo /usr/sbin/sshd &)
+[[ "$(hostname)" == *"toolbox"* ]] && \
     . "$HOME/.cargo/env"
 
 function tb () {
@@ -35,9 +36,11 @@ alias notes="nvim ~/Nextcloud/Notes/University/index.md"
 
 fpath+=~/.zfunc
 
-if [ -e /var/home/sboyden/.nix-profile/etc/profile.d/nix.sh ]; then . /var/home/sboyden/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then 
+    . $HOME/.nix-profile/etc/profile.d/nix.sh # added by Nix installer
+fi 
 
-export GOROOT=/var/home/sboyden/.go
+export GOROOT=$HOME/.go
 export PATH=$GOROOT/bin:$PATH
-export GOPATH=/var/home/sboyden/go
+export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
